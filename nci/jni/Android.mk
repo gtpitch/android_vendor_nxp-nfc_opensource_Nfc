@@ -1,4 +1,4 @@
-VOB_COMPONENTS := vendor/nxp/opensource/external/libnfc-nci/src
+VOB_COMPONENTS := vendor/nxp-nfc/opensource/libnfc-nci
 NFA := $(VOB_COMPONENTS)/nfa
 NFC := $(VOB_COMPONENTS)/nfc
 
@@ -67,6 +67,9 @@ endif
 ifeq ($(strip $(NQ3XX_PRESENT)),true)
 NXP_CHIP_TYPE := $(PN553)
 else
+ifeq ($(BOARD_NFC_CHIPSET),pn547)
+NXP_CHIP_TYPE := $(PN547C2)
+else
 NXP_CHIP_TYPE := $(PN548C2)
 endif
 
@@ -116,7 +119,7 @@ LOCAL_C_INCLUDES += \
     $(VOB_COMPONENTS)/gki/common
 
 ifeq ($(NFC_NXP_ESE),TRUE)
-LOCAL_C_INCLUDES += vendor/nxp/opensource/external/libnfc-nci/p61-jcop-kit/include
+LOCAL_C_INCLUDES += vendor/nxp-nfc/opensource/libnfc-nci/p61-jcop-kit/include
 
 endif
 
@@ -143,5 +146,6 @@ LOCAL_MODULE := libnqnfc_nci_jni
 LOCAL_MODULE_TAGS := optional
 LOCAL_PROPRIETARY_MODULE := true
 LOCAL_MODULE_OWNER := nxp
+LOCAL_OVERRIDES_PACKAGES := libnfc_nci_jni
 
 include $(BUILD_SHARED_LIBRARY)
